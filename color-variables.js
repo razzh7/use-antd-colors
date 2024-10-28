@@ -10,6 +10,7 @@ import {
 } from '@ant-design/colors';
 import Color from 'color';
 import fs from 'fs-extra';
+import { line } from './util.js';
 
 const cssVarsImport = `@import './colors.less';\n\n`;
 let cssVarsLightTemplate = 'body { \n';
@@ -28,10 +29,6 @@ function getRgbStr(color) {
     .round()
     .color
     .join(',');
-}
-
-function line(vi, vlength, ci, clength) {
-  return (vi === vlength - 1 && ci === clength - 1) ? '' : '\n';
 }
 
 export function generateCSSVariables() {
