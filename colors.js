@@ -64,6 +64,7 @@ function generateLessStatusVars() {
     });
 
     lightStatusTemplate += '\n';
+    darkStatusTemplate += (vi === colorsVarsArr.length - 1) ? '' : '\n';
   });
 
   fs.outputFile(path.resolve('./colors.less'), `${colorTemplate}${lightStatusTemplate}${darkStatusTemplate}`);
