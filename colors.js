@@ -74,11 +74,6 @@ function generateLessStatusVars() {
     const { colors, label } = colorVarsMap[key];
     colors.forEach((color, idx) => {
       const ci = idx + 1;
-      // if (key === 'primary') {
-      //   lightStatusTemplate += `@${key}-${ci}: rgb(var(--primary-${ci}));\n`;
-      //   darkStatusTemplate += `@dark-${key}-${ci}: rgb(var(--primary-${ci}));\n`;
-      //   return;
-      // }
       const canLine = line(vi, colorsVarsArr.length, idx, colors.length);
       lightStatusTemplate += `@${key}-${ci}: rgb(var(--${label}-${ci}));\n`;
       darkStatusTemplate += `@dark-${key}-${ci}: rgb(var(--${label}-${ci}));${canLine}`;
