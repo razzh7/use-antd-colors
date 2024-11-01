@@ -8,7 +8,6 @@ import {
   presetPalettes,
   red,
 } from '@ant-design/colors';
-import Color from 'color';
 import fs from 'fs-extra';
 import { line } from './util.js';
 
@@ -23,21 +22,14 @@ const colorVarsMap = {
   link: geekblue,
 };
 
-function getRgbStr(color) {
-  return Color(color)
-    .rgb()
-    .round()
-    .color
-    .join(',');
-}
-
 export function generateCSSVariables() {
   // rgb variables
   Object.keys(presetPalettes).forEach((key) => {
     const colors = presetPalettes[key];
 
     colors.forEach((color, idx) => {
-      cssVarsLightTemplate += `  --${key}-${idx + 1}: ${getRgbStr(color)};\n`;
+      const ci = idx + 1;
+      cssVarsLightTemplate += `  --${key}-${ci}: get-rgb-str(@${key}-${ci});\n`;
     });
   });
 
@@ -45,7 +37,8 @@ export function generateCSSVariables() {
     const colors = presetDarkPalettes[key];
 
     colors.forEach((color, idx) => {
-      cssVarsDarkTemplate += `  --${key}-${idx + 1}: ${getRgbStr(color)};\n`;
+      const ci = idx + 1;
+      cssVarsDarkTemplate += `  --${key}-${ci}: get-rgb-str(@${key}-${ci});\n`;
     });
   });
 
@@ -57,14 +50,14 @@ export function generateCSSVariables() {
     colors.forEach((color, ci) => {
       const cidx = ci + 1;
       if (key === 'primary') {
-        cssVarsLightTemplate += `  --primary-${cidx}: var(~'@primary-${cidx}');\n`;
-        cssVarsDarkTemplate += `  --primary-${cidx}: var(~'@dark-primary-${cidx}');\n`;
+        cssVarsLightTemplate += `  --primary-${cidx}: get-var-str(~'@{primary-${cidx}}');\n`;
+        cssVarsDarkTemplate += `  --primary-${cidx}: get-var-str(~'@{dark-primary-${cidx}}');\n`;
         return;
       }
 
       const canLine = line(vi, colorsVarsArr.length, ci, colors.length);
-      cssVarsLightTemplate += `  --${key}-${cidx}: var(~'@${key}-${cidx}');${canLine}`;
-      cssVarsDarkTemplate += `  --${key}-${cidx}: var(~'@dark-${key}-${cidx}');${canLine}`;
+      cssVarsLightTemplate += `  --${key}-${cidx}: get-var-str(~'@{${key}-${cidx}}');${canLine}`;
+      cssVarsDarkTemplate += `  --${key}-${cidx}: get-var-str(~'@{dark-${key}-${cidx}}');${canLine}`;
     });
   });
 
