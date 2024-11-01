@@ -38,7 +38,7 @@ export function generateCSSVariables() {
 
     colors.forEach((color, idx) => {
       const ci = idx + 1;
-      cssVarsDarkTemplate += `  --${key}-${ci}: get-rgb-str(@${key}-${ci});\n`;
+      cssVarsDarkTemplate += `  --${key}-${ci}: get-rgb-str(@dark-${key}-${ci});\n`;
     });
   });
 
